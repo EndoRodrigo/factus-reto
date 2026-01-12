@@ -1,0 +1,19 @@
+import 'package:get/get.dart';
+import '../modules/splash/splash_view.dart';
+import '../modules/home/home_view.dart';
+import 'app_routes.dart';
+
+class AppPages {
+  static const INITIAL = AppRoutes.SPLASH;
+
+  static final routes = [
+    GetPage(
+      name: AppRoutes.SPLASH,
+      page: () => const SplashView(),
+    ),
+    GetPage(
+      name: AppRoutes.HOME,
+      page: () => const HomeView(),
+    ),
+  ];
+}
