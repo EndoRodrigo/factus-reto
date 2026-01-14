@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import '../modules/auth/login_view.dart';
+import '../modules/auth/register_view.dart';
 import '../modules/splash/splash_view.dart';
 import '../modules/home/home_view.dart';
 import 'app_routes.dart';
@@ -15,5 +17,14 @@ class AppPages {
       name: AppRoutes.HOME,
       page: () => const HomeView(),
     ),
+    GetPage(
+      name: AppRoutes.LOGIN,
+      page: () => const LoginView(),
+    ),
+    GetPage(
+      name: AppRoutes.REGISTER,
+      page: () => const RegisterView(),
+    ),
+
   ];
 }
