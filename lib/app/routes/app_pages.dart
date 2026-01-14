@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import '../modules/auth/login_view.dart';
 import '../modules/auth/register_view.dart';
+import '../modules/product_detail/product_detail_view.dart';
 import '../modules/splash/splash_view.dart';
 import '../modules/home/home_view.dart';
 import 'app_routes.dart';
@@ -24,6 +25,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.REGISTER,
       page: () => const RegisterView(),
+    ),
+    GetPage(
+      name: AppRoutes.PRODUCT_DETAIL,
+      page: () => const ProductDetailView(),
     ),
 
   ];
