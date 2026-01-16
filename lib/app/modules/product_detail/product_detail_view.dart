@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../data/models/product_model.dart';
+import '../cart/cart_controller.dart';
 
 class ProductDetailView extends StatelessWidget {
   const ProductDetailView({super.key});
@@ -63,10 +64,13 @@ class ProductDetailView extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        // FASE 5
+                        final cart = Get.find<CartController>();
+                        cart.addToCart(product);
+                        Get.snackbar('Carrito', 'Producto agregado');
                       },
                       child: const Text('Agregar al carrito'),
                     ),
+
                   ),
                 ],
               ),

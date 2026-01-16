@@ -43,6 +43,9 @@ dependencies:
   #Se usa para el manejo de las rutas
   get: ^4.7.3
 
+  flutter_stripe: ^10.1.1
+  http: ^1.6.0
+
   flutter_screenutil: ^5.9.0
 dev_dependencies:
   flutter_test:

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import 'app/modules/cart/cart_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'config/theme/app_theme.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  Get.put(CartController(), permanent: true);
   runApp(const MyApp());
 }
 

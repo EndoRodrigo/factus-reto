@@ -11,7 +11,14 @@ class HomeView extends StatelessWidget {
     final controller = Get.put(HomeController());
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Productos')),
+      appBar: AppBar(title: const Text('Productos'),actions: [
+        IconButton(
+          icon: const Icon(Icons.shopping_cart),
+          onPressed: () {
+            Get.toNamed(AppRoutes.CART);
+          },
+        ),
+      ],),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());

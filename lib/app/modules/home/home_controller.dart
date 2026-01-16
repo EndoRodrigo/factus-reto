@@ -17,7 +17,7 @@ class HomeController extends GetxController {
   void loadProducts() async {
     try {
       isLoading.value = true;
-      products.value = await _service.getProducts();
+      products.value = (_service.getProducts()) as List<ProductModel>;
     } finally {
       isLoading.value = false;
     }

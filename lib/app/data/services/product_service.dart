@@ -1,18 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../models/product_model.dart';
-
 class ProductService {
-  final _db = FirebaseFirestore.instance;
+  final _db = FirebaseFirestore.instance.collection('products');
 
-  Future<List<ProductModel>> getProducts() async {
-    final snapshot = await _db
-        .collection('products')
-        .where('isActive', isEqualTo: true)
-        .get();
+  Stream<QuerySnapshot> getProducts() {
+    return _db.snapshots();
+  }
 
-    return snapshot.docs
-        .map((doc) => ProductModel.fromMap(doc.id, doc.data()))
-        .toList();
+  Future<void> createProduct(Map<String, dynamic> data) {
+    return _db.add(data);
+  }
+
+  Future<void> updateProduct(String id, Map<String, dynamic> data) {
+    return _db.doc(id).update(data);
+  }
+
+  Future<void> deleteProduct(String id) {
+    return _db.doc(id).delete();
   }
 }
