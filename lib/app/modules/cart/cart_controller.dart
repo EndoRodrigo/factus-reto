@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../../../core/utils/stripe_service.dart';
 import '../../data/models/cart_item_model.dart';
 import '../../data/models/product_model.dart';
 import '../../data/services/order_service.dart';
@@ -30,12 +31,30 @@ class CartController extends GetxController {
       items.fold(0, (sum, item) => sum + item.subtotal);
 
   Future<void> checkout() async {
-    await _orderService.createOrder(
-      items.map((e) => e.toMap()).toList(), // ✅ items
-      total, // ✅ total SIN .value
-    );
+    if (items.isEmpty) return;
 
-    items.clear(); // ✅ items
-    Get.snackbar('Éxito', 'Orden creada correctamente');
+    Get.showOverlay(
+      asyncFunction: () async {
+        // 1. Procesar Pago con Stripe
+        bool paymentSuccessful = await StripeService.instance.makePayment(
+          total,
+          'USD',
+        );
+
+        if (paymentSuccessful) {
+          // 2. Si el pago es exitoso, crear la orden en Firebase
+          await _orderService.createOrder(
+            items.map((e) => e.toMap()).toList(),
+            total,
+          );
+
+          items.clear();
+          Get.snackbar('Éxito', 'Pago realizado y orden creada correctamente');
+        } else {
+          Get.snackbar('Error', 'El pago no pudo completarse');
+        }
+      },
+      loadingWidget: const Center(child: CircularProgressIndicator()),
+    );
   }
 }

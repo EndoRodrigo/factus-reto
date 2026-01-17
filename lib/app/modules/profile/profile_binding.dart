@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
-import 'profile_controller.dart';
 
-class ProfileBinding extends Bindings {
+import '../admin/admin_controller.dart';
+
+class AdminBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ProfileController>(
-          () => ProfileController(),
-    );
+    Get.lazyPut(() => AdminController());
+    Get.lazyPut(() => AdminProductController());
+    Get.lazyPut(() => AdminOrderController());
   }
 }

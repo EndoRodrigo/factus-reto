@@ -61,5 +61,11 @@ class AppPages {
       binding: AdminBinding(),
       middlewares: [AdminMiddleware()],
     ),
+    GetPage(
+      name: AppRoutes.ADMIN,
+      page: () => const AdminDashboardView(),
+      binding: AdminBinding(),
+      middlewares: [AdminMiddleware()],
+    ),
   ];
 }

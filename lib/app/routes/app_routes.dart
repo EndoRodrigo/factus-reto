@@ -8,5 +8,7 @@ abstract class AppRoutes {
   static const ORDER_DETAIL = '/order-detail';
   static const PROFILE = '/profile';
   static const ADMIN = '/admin';
+  static const ADMIN_PRODUCTS = '/admin/products';
+  static const ADMIN_ORDERS = '/admin/orders';
 
 }

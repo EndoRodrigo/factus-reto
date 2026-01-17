@@ -1,12 +1,25 @@
 import 'package:get/get.dart';
-import '../../data/services/product_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminController extends GetxController {
-  final ProductService _service = ProductService();
+  var totalOrders = 0.obs;
+  var totalRevenue = 0.0.obs;
 
-  Stream get products => _service.getProducts();
+  @override
+  void onInit() {
+    loadStats();
+    super.onInit();
+  }
 
-  void deleteProduct(String id) {
-    _service.deleteProduct(id);
+  void loadStats() async {
+    final snapshot =
+    await FirebaseFirestore.instance.collection('orders').get();
+
+    totalOrders.value = snapshot.docs.length;
+
+    totalRevenue.value = snapshot.docs.fold(
+      0.0,
+          (sum, doc) => sum + doc['total'],
+    );
   }
 }
