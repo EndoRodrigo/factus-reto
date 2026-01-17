@@ -1,15 +1,16 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import '../../../core/utils/stripe_service.dart';
-import '../../data/models/cart_item_model.dart';
-import '../../data/models/product_model.dart';
+import '../../../data/models/cart_item_model.dart'; // NUEVA RUTA
+import '../../../data/models/product_model.dart';   // NUEVA RUTA
 import '../../data/services/order_service.dart';
 
 class CartController extends GetxController {
+  // Aseguramos que la lista use el modelo de la nueva arquitectura
   var items = <CartItemModel>[].obs;
   final OrderService _orderService = OrderService();
 
-  void addToCart(dynamic product) {
+  void addToCart(ProductModel product) {
     final index = items.indexWhere(
           (item) => item.product.id == product.id,
     );
@@ -23,6 +24,13 @@ class CartController extends GetxController {
     Get.snackbar('Carrito', '${product.name} añadido');
   }
 
+  void removeFromCart(ProductModel product) {
+    items.removeWhere(
+          (item) => item.product.id == product.id,
+    );
+    items.refresh();
+  }
+
   double get total =>
       items.fold(0, (sum, item) => sum + (item.product.price * item.quantity));
 
@@ -33,20 +41,17 @@ class CartController extends GetxController {
     }
 
     try {
-      // 1. Mostrar loading
       Get.dialog(
         const Center(child: CircularProgressIndicator()),
         barrierDismissible: false,
       );
 
-      // 2. Procesar Pago con Stripe
       bool paymentSuccessful = await StripeService.instance.makePayment(
         total,
         'USD',
       );
 
       if (paymentSuccessful) {
-        // 3. Si el pago es exitoso, crear la orden en Firebase
         await _orderService.createOrder(
           items.map((e) => e.toMap()).toList(),
           total,
@@ -55,9 +60,9 @@ class CartController extends GetxController {
         Get.back(); // Cerrar loading
         items.clear();
         Get.snackbar('Éxito', 'Pago procesado y orden creada');
-        Get.back(); // Volver a la pantalla anterior
+        Get.back();
       } else {
-        Get.back(); // Cerrar loading
+        Get.back();
         Get.snackbar('Pago Cancelado', 'No se procesó el pago');
       }
       

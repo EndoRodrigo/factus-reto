@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app/modules/cart/cart_controller.dart';
 import 'app/routes/app_pages.dart';
@@ -10,6 +11,10 @@ import 'core/utils/stripe_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Cargar variables de entorno antes de inicializar Firebase o Stripe
+  await dotenv.load(fileName: ".env");
+  
   await Firebase.initializeApp();
   
   // Inicialización de Stripe

@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.factus_retos"
-        minSdk = 21 // Requerido por Stripe
+        minSdk = flutter.minSdkVersion // Requerido por Stripe
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
