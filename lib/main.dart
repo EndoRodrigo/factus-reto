@@ -6,10 +6,15 @@ import 'package:get/get.dart';
 import 'app/modules/cart/cart_controller.dart';
 import 'app/routes/app_pages.dart';
 import 'config/theme/app_theme.dart';
+import 'core/utils/stripe_service.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  
+  // Inicialización de Stripe
+  await StripeService.instance.init();
+  
   Get.put(CartController(), permanent: true);
   runApp(const MyApp());
 }
