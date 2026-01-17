@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../../../core/utils/stripe_service.dart';
+import 'package:flutter/material.dart';
 import '../../data/models/cart_item_model.dart';
 import '../../data/models/product_model.dart';
 import '../../data/services/order_service.dart';
@@ -19,42 +19,46 @@ class CartController extends GetxController {
     } else {
       items.add(CartItemModel(product: product));
     }
+    Get.snackbar('Carrito', '${product.name} añadido');
   }
 
   void removeFromCart(ProductModel product) {
     items.removeWhere(
           (item) => item.product.id == product.id,
     );
+    items.refresh();
   }
 
   double get total =>
-      items.fold(0, (sum, item) => sum + item.subtotal);
+      items.fold(0, (sum, item) => sum + (item.product.price * item.quantity));
 
   Future<void> checkout() async {
-    if (items.isEmpty) return;
+    if (items.isEmpty) {
+      Get.snackbar('Carrito', 'El carrito está vacío');
+      return;
+    }
 
-    Get.showOverlay(
-      asyncFunction: () async {
-        // 1. Procesar Pago con Stripe
-        bool paymentSuccessful = await StripeService.instance.makePayment(
-          total,
-          'USD',
-        );
+    try {
+      Get.dialog(
+        const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false,
+      );
 
-        if (paymentSuccessful) {
-          // 2. Si el pago es exitoso, crear la orden en Firebase
-          await _orderService.createOrder(
-            items.map((e) => e.toMap()).toList(),
-            total,
-          );
+      // Simplemente creamos la orden directamente sin Stripe
+      await _orderService.createOrder(
+        items.map((e) => e.toMap()).toList(),
+        total,
+      );
 
-          items.clear();
-          Get.snackbar('Éxito', 'Pago realizado y orden creada correctamente');
-        } else {
-          Get.snackbar('Error', 'El pago no pudo completarse');
-        }
-      },
-      loadingWidget: const Center(child: CircularProgressIndicator()),
-    );
+      Get.back(); // Cerrar loading
+      items.clear();
+      Get.snackbar('Éxito', 'Orden creada correctamente');
+      Get.back(); // Regresar
+      
+    } catch (e) {
+      Get.back();
+      Get.snackbar('Error', 'No se pudo procesar la orden');
+      print("Error en checkout: $e");
+    }
   }
 }

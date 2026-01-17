@@ -1,11 +1,39 @@
 import 'package:get/get.dart';
-import '../../data/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../data/services/firestore_service.dart';
+import '../../../data/models/user_model.dart'; // Apuntando a la nueva ubicación
+import '../../routes/app_routes.dart';
 
 class ProfileController extends GetxController {
-  final AuthService _authService = AuthService();
+  final FirestoreService _firestoreService = FirestoreService();
+  final _auth = FirebaseAuth.instance;
+
+  var userModel = Rxn<UserModel>();
+  var isLoading = true.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadUserData();
+  }
+
+  void loadUserData() async {
+    try {
+      isLoading.value = true;
+      final user = _auth.currentUser;
+      if (user != null) {
+        userModel.value = await _firestoreService.getUser(user.uid);
+      }
+    } catch (e) {
+      print("Error profile: $e");
+      Get.snackbar('Error', 'No se pudo cargar la información del usuario');
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   void logout() async {
-    await _authService.logout();
-    Get.offAllNamed('/login');
+    await _auth.signOut();
+    Get.offAllNamed(AppRoutes.LOGIN);
   }
 }

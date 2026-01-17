@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../../data/models/product_model.dart';
+import '../../../data/models/product_model.dart';
 import '../../data/services/product_service.dart';
 
 class HomeController extends GetxController {
@@ -14,12 +14,16 @@ class HomeController extends GetxController {
     loadProducts();
   }
 
-  void loadProducts() async {
-    try {
-      isLoading.value = true;
-      products.value = (_service.getProducts()) as List<ProductModel>;
-    } finally {
+  void loadProducts() {
+    isLoading.value = true;
+    _service.getProducts().listen((snapshot) {
+      products.value = snapshot.docs.map((doc) {
+        return ProductModel.fromMap(doc.id, doc.data() as Map<String, dynamic>);
+      }).toList();
       isLoading.value = false;
-    }
+    }, onError: (error) {
+      isLoading.value = false;
+      Get.snackbar('Error', 'No se pudieron cargar los productos');
+    });
   }
 }

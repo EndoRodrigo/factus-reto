@@ -10,7 +10,7 @@ class StripeService {
   String _paymentIntentClientSecret = "";
 
   Future<void> init() async {
-    Stripe.publishableKey = "TU_STRIPE_PUBLISHABLE_KEY"; // Reemplazar con tu llave
+    Stripe.publishableKey = "pk_test_51SqP4zDAz15rcIgtd3sbdObSnjFCk6Rtv8w1jX5Ywas0IDQTruyFxNxt4XsuQNCpwCeFlWwKK14CRXHwAcdlWxL400hkLxu5rT"; // Reemplazar con tu llave
     await Stripe.instance.applySettings();
   }
 
@@ -52,7 +52,7 @@ class StripeService {
       var response = await http.post(
         Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
-          'Authorization': 'Bearer TU_STRIPE_SECRET_KEY', // Reemplazar con tu Secret Key
+          'Authorization': 'Bearer sk_test_51SqP4zDAz15rcIgtCH1yy0BjsXOISvidcAj0YO6yRZp4T0hIzxBqBEWqFmf2HnT95S0p9QjY4wNyDswm9aWREVAV00uzoogpB1', // Reemplazar con tu Secret Key
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: body,

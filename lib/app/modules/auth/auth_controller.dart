@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-
-import '../../data/models/user_model.dart';
+import '../../../data/models/user_model.dart';
 import '../../data/services/firestore_service.dart';
+import '../../routes/app_routes.dart';
 
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -29,6 +29,7 @@ class AuthController extends GetxController {
       await _firestoreService.saveUser(user);
 
       Get.snackbar('Éxito', 'Usuario creado correctamente');
+      Get.offAllNamed(AppRoutes.HOME);
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {
@@ -44,11 +45,17 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
-
+      
+      Get.offAllNamed(AppRoutes.HOME);
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> logout() async {
+    await _auth.signOut();
+    Get.offAllNamed(AppRoutes.LOGIN);
   }
 }

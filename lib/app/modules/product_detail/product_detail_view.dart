@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../data/models/product_model.dart';
+import '../../../data/models/product_model.dart'; // Apuntando a la nueva ubicación
 import '../cart/cart_controller.dart';
 
 class ProductDetailView extends StatelessWidget {
@@ -8,7 +8,8 @@ class ProductDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductModel product = Get.arguments;
+    // Al recibir argumentos, nos aseguramos de usar el modelo de la nueva ubicación
+    final product = Get.arguments;
 
     return Scaffold(
       appBar: AppBar(title: Text(product.name)),
@@ -16,17 +17,31 @@ class ProductDetailView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              product.imageUrl,
-              width: double.infinity,
-              height: 250,
-              fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
+            // Usamos network si es una URL de Firebase, o asset si es local
+            if (product.imageUrl.startsWith('http'))
+              Image.network(
+                product.imageUrl,
+                width: double.infinity,
                 height: 250,
-                color: Colors.grey[300],
-                child: const Icon(Icons.image, size: 80),
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(
+                  height: 250,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.image, size: 80),
+                ),
+              )
+            else
+              Image.asset(
+                product.imageUrl,
+                width: double.infinity,
+                height: 250,
+                fit: BoxFit.cover,
+                errorBuilder: (_, __, ___) => Container(
+                  height: 250,
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.image, size: 80),
+                ),
               ),
-            ),
 
             Padding(
               padding: const EdgeInsets.all(16),
@@ -40,9 +55,7 @@ class ProductDetailView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 8),
-
                   Text(
                     '\$${product.price}',
                     style: const TextStyle(
@@ -50,27 +63,21 @@ class ProductDetailView extends StatelessWidget {
                       color: Colors.green,
                     ),
                   ),
-
                   const SizedBox(height: 16),
-
                   Text(
                     product.description,
                     style: const TextStyle(fontSize: 16),
                   ),
-
                   const SizedBox(height: 32),
-
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
                         final cart = Get.find<CartController>();
                         cart.addToCart(product);
-                        Get.snackbar('Carrito', 'Producto agregado');
                       },
                       child: const Text('Agregar al carrito'),
                     ),
-
                   ),
                 ],
               ),

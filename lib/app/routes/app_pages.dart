@@ -13,6 +13,8 @@ import '../modules/profile/profile_binding.dart';
 import '../modules/profile/profile_view.dart';
 import '../modules/splash/splash_view.dart';
 import '../modules/home/home_view.dart';
+import '../modules/product_form/product_form_view.dart';
+import '../modules/product_form/product_form_binding.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -50,11 +52,10 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.PROFILE,
-      page: () => ProfileView(),
+      page: () => const ProfileView(),
       binding: ProfileBinding(),
       middlewares: [AuthMiddleware()],
     ),
-
     GetPage(
       name: AppRoutes.ADMIN,
       page: () => AdminView(),
@@ -62,9 +63,9 @@ class AppPages {
       middlewares: [AdminMiddleware()],
     ),
     GetPage(
-      name: AppRoutes.ADMIN,
-      page: () => const AdminDashboardView(),
-      binding: AdminBinding(),
+      name: AppRoutes.ADMIN_PRODUCTS,
+      page: () => ProductFormView(),
+      binding: ProductFormBinding(),
       middlewares: [AdminMiddleware()],
     ),
   ];
