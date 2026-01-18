@@ -1,20 +1,20 @@
 import 'package:get/get.dart';
+import '../../presentation/controllers/admin_binding.dart';
+import '../../presentation/controllers/order_detail_binding.dart';
+import '../../presentation/controllers/product_form_binding.dart';
+import '../../presentation/controllers/profile_binding.dart';
+import '../../presentation/views/admin_view.dart';
+import '../../presentation/views/cart_view.dart';
+import '../../presentation/views/home_view.dart';
+import '../../presentation/views/login_view.dart';
+import '../../presentation/views/order_detail_view.dart';
+import '../../presentation/views/product_detail_view.dart';
+import '../../presentation/views/product_form_view.dart';
+import '../../presentation/views/profile_view.dart';
+import '../../presentation/views/register_view.dart';
+import '../../presentation/views/splash_view.dart';
 import '../middlewares/admin_middleware.dart';
 import '../middlewares/auth_middleware.dart';
-import '../modules/admin/admin_binding.dart';
-import '../modules/admin/admin_view.dart';
-import '../modules/auth/login_view.dart';
-import '../modules/auth/register_view.dart';
-import '../modules/cart/cart_view.dart';
-import '../modules/order_detail/order_detail_binding.dart';
-import '../modules/order_detail/order_detail_view.dart';
-import '../modules/product_detail/product_detail_view.dart';
-import '../modules/profile/profile_binding.dart';
-import '../modules/profile/profile_view.dart';
-import '../modules/splash/splash_view.dart';
-import '../modules/home/home_view.dart';
-import '../modules/product_form/product_form_view.dart';
-import '../modules/product_form/product_form_binding.dart';
 import 'app_routes.dart';
 
 class AppPages {

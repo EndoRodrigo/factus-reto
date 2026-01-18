@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _db = FirebaseFirestore.instance;
 
   User? get getCurrentUser => _auth.currentUser;
 
@@ -17,6 +19,11 @@ class AuthService {
 
   Future<void> logout() async{
     await _auth.signOut();
+  }
+
+  Future<String> getUserRole(String uid) async {
+    final doc = await _db.collection('users').doc(uid).get();
+    return doc['role'];
   }
 
 }

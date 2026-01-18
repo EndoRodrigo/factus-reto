@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
-import 'app/modules/cart/cart_controller.dart';
-import 'app/routes/app_pages.dart';
+import 'core/routes/app_pages.dart';
 import 'config/theme/app_theme.dart';
 import 'core/utils/stripe_service.dart';
+import 'presentation/controllers/cart_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
